@@ -1,0 +1,25 @@
+{
+  "name": "gh-action-terraform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js --out dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.4.0",
+    "@actions/tool-cache": "^1.7.1",
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
+    "process": "^0.11.10",
+    "shelljs": "^0.8.4",
+    "util": "^0.12.4"
+  }
+}

@@ -1,0 +1,50 @@
+name: 'Terraform Action Commands'
+description: 'Sets up and runs terraform commands in your GH Actions workflow'
+author: 'Mainak Dhar'
+inputs:
+  terraform_version:
+    description: 'The version of Terraform CLI to install. Instead of full version string you can also specify constraint string starting with "<" (for example `<1.13.0`) to install the latest version satisfying the constraint. A value of `latest` will install the latest version of Terraform CLI. Defaults to `latest`.'
+    default: 'latest'
+    required: false
+  command:
+    description: 'Command to execute.'
+    default: 'ensure'
+    required: false
+  bucket:
+    description: 'Name of the s3 bucket'
+    default: ''
+    required: false
+  stateprefix:
+    description: 'Statefile path in state bucket'
+    default: ''
+    required: false
+  varsfile:
+    description: 'Path to variable file'
+    default: ''
+    required: false
+  planfile:
+    description: 'The name of the the planfile to create'
+    default: 'out.plan'
+    required: false
+  workspace:
+    description: 'The workspace to use to apply changes'
+    default: 'default'
+    required: false
+  aws_region:
+    description: 'The AWS region'
+    default: 'eu-west-1'
+    required: false
+  aws_access_key_id:
+    description: 'The AWS Access key id'
+    default: 'acracadabra_id'
+    required: false
+  aws_secret_access_key:
+    description: 'The AWS Secret Access key'
+    default: 'acracadabra_key'
+    required: false
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'terminal'
+  color: 'purple'
