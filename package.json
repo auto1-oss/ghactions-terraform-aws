@@ -18,6 +18,7 @@
     "@actions/tool-cache": "^1.7.1",
     "child_process": "^1.0.2",
     "fs": "0.0.1-security",
+    "path": "^0.12.7",
     "process": "^0.11.10",
     "shelljs": "^0.8.4",
     "util": "^0.12.4"

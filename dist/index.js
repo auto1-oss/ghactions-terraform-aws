@@ -53,16 +53,16 @@ module.exports =
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(68);
+const path = __webpack_require__(622)
 const util = __webpack_require__(669);
 const exec = util.promisify(__webpack_require__(129).exec);
 
 async function init() {
     try {
         const version = core.getInput("terraform_version");
-        const path = core.getInput("path")
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
-        const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer, core.getInput("confpath"));
+        const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer);
         core.info(`Changing directories to working directory..`)
         process.chdir(path.join(process.cwd(), core.getInput("confpath")))
         core.info(`Starting terraform init with command ${initcmd}`);
@@ -75,7 +75,7 @@ async function init() {
     }
 }
 
-function makeInitCmd(bucket, prefix, region, majorVer, path) {
+function makeInitCmd(bucket, prefix, region, majorVer) {
     if (bucket != '' && prefix != '') {
         return `terraform${majorVer} init -force-copy -backend-config region=${region} -backend-config bucket=${bucket} -backend-config key=${prefix}`
     }
