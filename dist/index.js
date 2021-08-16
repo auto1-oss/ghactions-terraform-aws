@@ -60,10 +60,9 @@ const exec = __webpack_require__(85)
 async function init() {
     try {
         const version = core.getInput("terraform_version");
-        const path = core.getInput("path")
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
-        const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer);
+        const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer, core.getInput("confpath"));
         core.info(`Starting terraform init with command ${initcmd}`);
         //const { stdout, stderr } = await exec(initcmd);
         //core.info(`stdout: ${stdout}`);
@@ -77,11 +76,11 @@ async function init() {
     }
 }
 
-function makeInitCmd(bucket, prefix, region, majorVer) {
+function makeInitCmd(bucket, prefix, region, majorVer, confpath) {
     if (bucket != '' && prefix != '') {
-        return `cd ${path} && terraform${majorVer} init -force-copy -backend-config region=${region} -backend-config bucket=${bucket} -backend-config key=${prefix}`
+        return `cd ${confpath} && terraform${majorVer} init -force-copy -backend-config region=${region} -backend-config bucket=${bucket} -backend-config key=${prefix}`
     }
-    return `cd ${path} && terraform${majorVer} init`
+    return `cd ${confpath} && terraform${majorVer} init`
 }
 
 module.exports = init;
