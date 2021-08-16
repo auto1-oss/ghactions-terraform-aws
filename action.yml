@@ -10,7 +10,7 @@ inputs:
     description: 'Command to execute.'
     default: 'ensure'
     required: false
-  confpath:
+  working-directory:
     description: 'Path to the terraform configuration files. Path is relative to repo root, can also work wih absolute path'
     default: '.'
     required: false

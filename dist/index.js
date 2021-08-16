@@ -64,7 +64,7 @@ async function init() {
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer);
         core.info(`Changing directories to working directory`)
-        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")))
         core.info(`Starting terraform init with command ${initcmd}`);
         const { stdout, stderr } = await exec(initcmd);
         core.info(`stdout: ${stdout}`);
@@ -111,7 +111,7 @@ async function destroy() {
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const destroycmd = makeDestroyCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
         core.info(`Changing directories to working directory`)
-        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")))
         core.info(`Starting terraform plan with command ${destroycmd}`);
         const { stdout, stderr } = await exec(destroycmd);
         core.info(`stdout: ${stdout}`);
@@ -1514,7 +1514,7 @@ async function apply() {
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const applycmd = makeApplyCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
         core.info(`Changing directories to working directory`)
-        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")))
         core.info(`Starting terraform apply with command ${applycmd}`);
         const { stdout, stderr } = await exec(plancmd);
         core.info(`stdout: ${stdout}`);
@@ -2743,7 +2743,7 @@ async function plan() {
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const plancmd = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
         core.info(`Changing directories to working directory`)
-        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")))
         core.info(`Starting terraform plan with command ${plancmd}`);
         const { stdout, stderr } = await exec(plancmd);
         core.info(`stdout: ${stdout}`);
