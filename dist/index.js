@@ -63,7 +63,7 @@ async function init() {
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const initcmd = makeInitCmd(core.getInput("bucket"), core.getInput("stateprefix"), core.getInput("aws_region"), majorVer);
-        core.info(`Changing directories to working directory..`)
+        core.info(`Changing directories to working directory`)
         process.chdir(path.join(process.cwd(), core.getInput("confpath")))
         core.info(`Starting terraform init with command ${initcmd}`);
         const { stdout, stderr } = await exec(initcmd);
@@ -101,6 +101,7 @@ module.exports = require("tls");
 
 const core = __webpack_require__(68);
 const util = __webpack_require__(669);
+const path = __webpack_require__(622)
 const exec = util.promisify(__webpack_require__(129).exec);
 
 async function destroy() {
@@ -109,6 +110,8 @@ async function destroy() {
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const destroycmd = makeDestroyCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
+        core.info(`Changing directories to working directory`)
+        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
         core.info(`Starting terraform plan with command ${destroycmd}`);
         const { stdout, stderr } = await exec(destroycmd);
         core.info(`stdout: ${stdout}`);
@@ -1501,6 +1504,7 @@ module.exports = require("string_decoder");
 
 const core = __webpack_require__(68);
 const util = __webpack_require__(669);
+const path = __webpack_require__(622)
 const exec = util.promisify(__webpack_require__(129).exec);
 
 async function apply() {
@@ -1509,6 +1513,8 @@ async function apply() {
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const applycmd = makeApplyCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
+        core.info(`Changing directories to working directory`)
+        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
         core.info(`Starting terraform apply with command ${applycmd}`);
         const { stdout, stderr } = await exec(plancmd);
         core.info(`stdout: ${stdout}`);
@@ -2727,6 +2733,7 @@ exports.getCmdPath = getCmdPath;
 
 const core = __webpack_require__(68);
 const util = __webpack_require__(669);
+const path = __webpack_require__(622)
 const exec = util.promisify(__webpack_require__(129).exec);
 
 async function plan() {
@@ -2735,6 +2742,8 @@ async function plan() {
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const plancmd = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("workspace"), majorVer);
+        core.info(`Changing directories to working directory`)
+        process.chdir(path.join(process.cwd(), core.getInput("confpath")))
         core.info(`Starting terraform plan with command ${plancmd}`);
         const { stdout, stderr } = await exec(plancmd);
         core.info(`stdout: ${stdout}`);
