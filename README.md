@@ -46,6 +46,8 @@ jobs:
 
 `command` The action to perform. The terraform actions supported are **init**, **plan**, **apply**, **destroy**. There is an additional action defined **ensure** that checks if you have the exact version of terraform provided as terraform version in workflow installed, or it will download and place the binary on **$PATH**. *Required: True*
 
+`confpath` The path(directories) to the terraform manifests. Should be a relative path w.r.t the root directory. By default set to **cwd** . *Required: False*
+
 `bucket` The state bucket to use. Can be skipped if you want to maintain local state. *Required: False*
 
 `stateprefix` The bucket key to use to store the state. Optional if you are using local state. *Required: False*
