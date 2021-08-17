@@ -56,6 +56,8 @@ jobs:
 
 `planfile` Use a custom name for a plan file. Default name **out.plan**. *Required: False*
 
+`create-workspace` Set to **true** if a new terraform workspace has to be created, the workspace name would be set by the **workspace** input. *Required: false*
+
 `workspace` The workspace to use. Uses **default** workspace by default. *Required: False*
 
 `aws_region` The AWS region to use AWS provisioning for. Default is **eu-west-1**. Use this to switch your region. *Required: False*
