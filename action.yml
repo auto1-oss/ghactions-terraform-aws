@@ -34,6 +34,10 @@ inputs:
     description: 'The workspace to use to apply changes'
     default: 'default'
     required: false
+  create-workspace:
+    description: 'Set to True if workspace need to be created'
+    default: 'false'
+    required: false
   aws_region:
     description: 'The AWS region'
     default: 'eu-west-1'
