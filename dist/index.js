@@ -14,17 +14,17 @@ async function apply() {
         const versionsSet = version.split(".");
         const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
         const aws_access_key_id = core.getInput("aws_access_key_id");
-        const aws_secret_access_key = core.getInput("aws_secret_access_key")
+        const aws_secret_access_key = core.getInput("aws_secret_access_key");
         const region = core.getInput("aws_region");
         process.env['AWS_DEFAULT_REGION'] = `${region}`;
-        addEnvVars(aws_access_key_id, aws_secret_access_key)
-        core.info(`Changing directories to working directory`)
-        process.chdir(path.join(process.cwd(), core.getInput("working-directory")))
+        addEnvVars(aws_access_key_id, aws_secret_access_key);
+        core.info(`Changing directories to working directory`);
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")));
         core.info(`Starting terraform apply`);
         const execfile = `terraform${majorVer}`
-        const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"))
-        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"))
-        core.startGroup(`Init info`);
+        const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"));
+        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"));
+        core.startGroup(`Terraform Apply`);
         core.info(`Starting terraform workspace switch with command ${execfile}`);
         await exec.exec(execfile, workspaceargs);
         await exec.exec(execfile, planargs);
@@ -286,6 +286,37 @@ function makePlanCmd(varsfile, planfile) {
 
 module.exports = plan;
 
+
+/***/ }),
+
+/***/ 395:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(127);
+const path = __nccwpck_require__(622)
+const exec = __nccwpck_require__(49)
+
+async function validate() {
+    try {
+        const version = core.getInput("terraform_version");
+        const versionsSet = version.split(".");
+        const majorVer = (versionsSet[0] = "0") ? versionsSet[1] : versionsSet[0];
+        const region = core.getInput("aws_region");
+        process.env['AWS_DEFAULT_REGION'] = `${region}`;
+        core.info(`Changing directories to working directory`);
+        process.chdir(path.join(process.cwd(), core.getInput("working-directory")));
+        core.info(`Starting terraform validate`);
+        const execfile = `terraform${majorVer}`;
+        core.startGroup(`Terraform Validate`);
+        await exec.exec(execfile, [`validate`]);
+        core.endGroup();
+    } catch (err) {
+        core.error(err);
+        throw err;
+    }
+}
+
+module.exports = validate;
 
 /***/ }),
 
@@ -5682,6 +5713,7 @@ const apply = __nccwpck_require__(596);
 const destroy = __nccwpck_require__(523);
 const core = __nccwpck_require__(127);
 var process = __nccwpck_require__(765);
+const validate = __nccwpck_require__(395);
 
 
 
@@ -5692,6 +5724,9 @@ var process = __nccwpck_require__(765);
         switch (action) {
             default:
                 core.info(`Undefined action: ${action}`);
+            case "validate":
+                await validate();
+                break;
             case "destroy":
                 await destroy();
                 break;

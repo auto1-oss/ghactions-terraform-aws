@@ -5,6 +5,7 @@ const apply = require("./lib/apply");
 const destroy = require("./lib/destroy");
 const core = require("@actions/core");
 var process = require('process');
+const validate = require("./lib/validate");
 
 
 
@@ -15,6 +16,9 @@ var process = require('process');
         switch (action) {
             default:
                 core.info(`Undefined action: ${action}`);
+            case "validate":
+                await validate();
+                break;
             case "destroy":
                 await destroy();
                 break;
