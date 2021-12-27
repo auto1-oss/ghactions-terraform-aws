@@ -30,6 +30,10 @@ inputs:
     description: 'The name of the the planfile to create'
     default: 'out.plan'
     required: false
+  target:
+    description: 'Set targets for plan and apply.'
+    default: ''
+    required: false  
   workspace:
     description: 'The workspace to use to apply changes'
     default: 'default'
