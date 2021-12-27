@@ -27,13 +27,13 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: tf-ensure
-        uses: mainak90/terraform-actions-aws@master
+        uses: auto1-oss/terraform-actions-aws@master
         with:
           terraform_version: '0.12.20'
           command: 'ensure'
 
       - name: tf-init
-        uses: mainak90/terraform-actions-aws@master
+        uses: auto1-oss/terraform-actions-aws@master
         with:
           terraform_version: '0.12.20'
           command: 'init'
@@ -56,6 +56,8 @@ jobs:
 
 `planfile` Use a custom name for a plan file. Default name **out.plan**. *Required: False*
 
+`target` Set targets for plan and apply. Default value is empty. *Required: False*, for an example target: "-target=aws_s3_bucket.random"
+
 `create-workspace` Set to **true** if a new terraform workspace has to be created, the workspace name would be set by the **workspace** input. *Required: false*
 
 `workspace` The workspace to use. Uses **default** workspace by default. *Required: False*
@@ -73,6 +75,8 @@ in your workflow input. _Required: False_
 ${{secrets.SECRET_NAME}}
 ```
 in your workflow input. _Required: False_
+
+`target` generates a plan only for defined resources.
 
 ## Supported platforms
 >For now this action only supports the **ubuntu-latest** runners owing to the fact that it is only acting as a wrapper for terraform operations. To provision this on a self-hosted runner you would need to hook this up with an Ubuntu based machine. 
