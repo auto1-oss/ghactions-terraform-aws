@@ -4,6 +4,11 @@
 
 >A simple javascript wrapper for GitHub Actions to execute terraform commands
 
+## Deploy
+
+- run `npm install` and `npm run-script build`
+- commit index.js to the repository
+
 ## How to run this?
 
 >Create a workflow with this like any normal github action workflow.
