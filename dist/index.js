@@ -36,6 +36,38 @@ async function apply() {
     }
 }
 
+function makeWorkspaceOrNot(createworkspace, workspace) {
+    if (createworkspace != "false") {
+        return [`workspace`, `new`, `${workspace}`]
+    }
+    return [`workspace`, `select`, `${workspace}`]
+}
+
+function addEnvVars(aws_access_key_id, aws_secret_access_key) {
+    if (aws_access_key_id != "acracadabra_id") {
+        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
+        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
+        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
+    }
+    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
+}
+
+function makePlanCmd(varsfile, planfile, target) {
+    let plan = [`plan`];
+
+    if (varsfile != "") {
+        plan = plan.concat([`-var-file`, `${varsfile}`])
+    }
+
+    if (target != "") {
+        plan = plan.concat([`-target`, `${target}`]);
+    }
+
+    plan = plan.concat([`-out`, `${planfile}`]);
+
+    return plan;
+}
+
 module.exports = apply;
 
 /***/ }),
@@ -73,6 +105,38 @@ async function destroy() {
         core.error(err);
         throw err;
     }
+}
+
+function makeWorkspaceOrNot(createworkspace, workspace) {
+    if (createworkspace != "false") {
+        return [`workspace`, `new`, `${workspace}`]
+    }
+    return [`workspace`, `select`, `${workspace}`]
+}
+
+function addEnvVars(aws_access_key_id, aws_secret_access_key) {
+    if (aws_access_key_id != "acracadabra_id") {
+        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
+        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
+        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
+    }
+    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
+}
+
+function makePlanCmd(varsfile, planfile, target) {
+    let plan = [`plan`];
+
+    if (varsfile != "") {
+        plan = plan.concat([`-var-file`, `${varsfile}`])
+    }
+
+    if (target != "") {
+        plan = plan.concat([`-target`, `${target}`]);
+    }
+
+    plan = plan.concat([`-out`, `${planfile}`]);
+
+    return plan;
 }
 
 module.exports = destroy;
@@ -158,6 +222,22 @@ async function init() {
     }
 }
 
+function addEnvVars(aws_access_key_id, aws_secret_access_key) {
+    if (aws_access_key_id != "acracadabra_id") {
+        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
+        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
+        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
+    }
+    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
+}
+
+function makeInitArgs(bucket, prefix, region) {
+    if (bucket != '' && prefix != '') {
+        return [ `init`, `-force-copy`, `-backend-config`, `region=${region}`, `-backend-config`, `bucket=${bucket}`, `-backend-config`, `key=${prefix}`]
+    }
+    return [`init`]
+}
+
 module.exports = init;
 
 /***/ }),
@@ -195,6 +275,38 @@ async function plan() {
         core.error(err);
         throw err;
     }
+}
+
+function makeWorkspaceOrNot(createworkspace, workspace) {
+    if (createworkspace != "false") {
+        return [`workspace`, `new`, `${workspace}`]
+    }
+    return [`workspace`, `select`, `${workspace}`]
+}
+
+function addEnvVars(aws_access_key_id, aws_secret_access_key) {
+    if (aws_access_key_id != "acracadabra_id") {
+        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
+        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
+        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
+    }
+    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
+}
+
+function makePlanCmd(varsfile, planfile, target) {
+    let plan = [`plan`];
+
+    if (varsfile != "") {
+        plan = plan.concat([`-var-file`, `${varsfile}`])
+    }
+
+    if (target != "") {
+        plan = plan.concat([`-target`, `${target}`]);
+    }
+
+    plan = plan.concat([`-out`, `${planfile}`]);
+
+    return plan;
 }
 
 module.exports = plan;
@@ -5659,46 +5771,6 @@ const validate = __nccwpck_require__(785);
         core.setFailed(error.message);
     }
   })();
-
-function makeWorkspaceOrNot(createworkspace, workspace) {
-    if (createworkspace != "false") {
-        return [`workspace`, `new`, `${workspace}`]
-    }
-    return [`workspace`, `select`, `${workspace}`]
-}
-
-function addEnvVars(aws_access_key_id, aws_secret_access_key) {
-    if (aws_access_key_id != "acracadabra_id") {
-        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
-        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
-        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
-    }
-    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
-}
-
-
-function makePlanCmd(varsfile, planfile, target) {
-    let plan = [`plan`];
-
-    if (varsfile != "") {
-        plan = plan.concat([`-var-file`, `${varsfile}`])
-    }
-
-    if (target != "") {
-        plan = plan.concat([`-target`, `${target}`]);
-    }
-
-    plan = plan.concat([`-out`, `${planfile}`]);
-
-    return plan;
-}
-
-function makeInitArgs(bucket, prefix, region) {
-    if (bucket != '' && prefix != '') {
-        return [ `init`, `-force-copy`, `-backend-config`, `region=${region}`, `-backend-config`, `bucket=${bucket}`, `-backend-config`, `key=${prefix}`]
-    }
-    return [`init`]
-}
 })();
 
 module.exports = __webpack_exports__;
