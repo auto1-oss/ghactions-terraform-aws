@@ -4,10 +4,17 @@
 
 >A simple javascript wrapper for GitHub Actions to execute terraform commands
 
-## Deploy
+## How to use
 
+- install `npm i -g @vercel/ncc`
 - run `npm install` and `npm run-script build`
-- commit index.js to the repository
+- Notes:
+  - node_modules needs to be commit to repository
+
+### More
+
+- https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action
+- https://github.com/actions/toolkit
 
 ## How to run this?
 

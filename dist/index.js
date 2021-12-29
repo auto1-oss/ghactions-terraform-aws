@@ -1,12 +1,12 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 596:
+/***/ 503:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const path = __nccwpck_require__(622)
-const exec = __nccwpck_require__(49)
+const core = __nccwpck_require__(719);
+const path = __nccwpck_require__(17)
+const exec = __nccwpck_require__(580)
 
 async function apply() {
     try {
@@ -23,7 +23,7 @@ async function apply() {
         core.info(`Starting terraform apply`);
         const execfile = `terraform${majorVer}`
         const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"));
-        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"));
+        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("target"));
         core.startGroup(`Terraform Apply`);
         core.info(`Starting terraform workspace switch with command ${execfile}`);
         await exec.exec(execfile, workspaceargs);
@@ -36,39 +36,16 @@ async function apply() {
     }
 }
 
-function addEnvVars(aws_access_key_id, aws_secret_access_key) {
-    if (aws_access_key_id != "acracadabra_id") {
-        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
-        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
-        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
-    }
-    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
-}
-
-function makeWorkspaceOrNot(createworkspace, workspace) {
-    if (createworkspace != "false") {
-        return [`workspace`, `new`, `${workspace}`]
-    }
-    return [`workspace`, `select`, `${workspace}`]
-}
-
-function makePlanCmd(varsfile, planfile) {
-    if (varsfile != "") {
-        return [`plan`, `-var-file`, `${varsfile}`, `-out`, `${planfile}`]
-    }
-    return [`plan`, `-out`, `${planfile}`]
-}
-
 module.exports = apply;
 
 /***/ }),
 
-/***/ 523:
+/***/ 0:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const path = __nccwpck_require__(622);
-const exec = __nccwpck_require__(49)
+const core = __nccwpck_require__(719);
+const path = __nccwpck_require__(17);
+const exec = __nccwpck_require__(580)
 
 async function destroy() {
     try {
@@ -85,7 +62,7 @@ async function destroy() {
         core.info(`Starting terraform destroy`);
         const execfile = `terraform${majorVer}`;
         const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"));
-        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"));
+        const planargs = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("target"));
         core.startGroup(`Terraform Destroy`);
         core.info(`Starting terraform workspace switch with command ${execfile}`);
         await exec.exec(execfile, workspaceargs);
@@ -98,44 +75,19 @@ async function destroy() {
     }
 }
 
-function makeWorkspaceOrNot(createworkspace, workspace) {
-    if (createworkspace != "false") {
-        return [`workspace`, `new`, `${workspace}`]
-    }
-    return [`workspace`, `select`, `${workspace}`]
-}
-
-function makePlanCmd(varsfile, planfile) {
-    if (varsfile != "") {
-        return [`plan`, `-var-file`, `${varsfile}`, `-out`, `${planfile}`, `-destroy`]
-    }
-    return [`plan`, `-out`, `${planfile}`, `-destroy`]
-}
-
-function addEnvVars(aws_access_key_id, aws_secret_access_key) {
-    if (aws_access_key_id != "acracadabra_id") {
-        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
-        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
-        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
-    }
-    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
-}
-
 module.exports = destroy;
 
 
 /***/ }),
 
-/***/ 873:
+/***/ 444:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const tc = __nccwpck_require__(348);
-const fs = __nccwpck_require__(747);
-const util = __nccwpck_require__(669);
-const exec = util.promisify(__nccwpck_require__(129).exec);
-
-//Terraform_version==major.minor.patch
+const core = __nccwpck_require__(719);
+const tc = __nccwpck_require__(707);
+const fs = __nccwpck_require__(147);
+const util = __nccwpck_require__(837);
+const exec = util.promisify((__nccwpck_require__(81).exec));
 
 async function ensure() {
     try{
@@ -173,12 +125,12 @@ module.exports = ensure;
 
 /***/ }),
 
-/***/ 887:
+/***/ 882:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const path = __nccwpck_require__(622);
-const exec = __nccwpck_require__(49)
+const core = __nccwpck_require__(719);
+const path = __nccwpck_require__(17);
+const exec = __nccwpck_require__(580)
 
 async function init() {
     try {
@@ -206,33 +158,17 @@ async function init() {
     }
 }
 
-function addEnvVars(aws_access_key_id, aws_secret_access_key) {
-    if (aws_access_key_id != "acracadabra_id") {
-        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
-        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
-        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
-    }
-    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
-}
-
-function makeInitArgs(bucket, prefix, region) {
-    if (bucket != '' && prefix != '') {
-        return [ `init`, `-force-copy`, `-backend-config`, `region=${region}`, `-backend-config`, `bucket=${bucket}`, `-backend-config`, `key=${prefix}`]
-    }
-    return [`init`]
-}
-
 module.exports = init;
 
 /***/ }),
 
-/***/ 292:
+/***/ 499:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const util = __nccwpck_require__(669);
-const path = __nccwpck_require__(622)
-const exec = util.promisify(__nccwpck_require__(129).exec);
+const core = __nccwpck_require__(719);
+const util = __nccwpck_require__(837);
+const path = __nccwpck_require__(17)
+const exec = util.promisify((__nccwpck_require__(81).exec));
 
 async function plan() {
     try {
@@ -244,7 +180,7 @@ async function plan() {
         const region = core.getInput("aws_region");
         process.env['AWS_DEFAULT_REGION'] = `${region}`;
         addEnvVars(aws_access_key_id, aws_secret_access_key)
-        const plancmd = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"));
+        const plancmd = makePlanCmd(core.getInput("varsfile"), core.getInput("planfile"), core.getInput("target"));
         const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"))
         const execfile = `terraform${majorVer}`
         core.info(`Changing directories to working directory`)
@@ -261,40 +197,17 @@ async function plan() {
     }
 }
 
-function addEnvVars(aws_access_key_id, aws_secret_access_key) {
-    if (aws_access_key_id != "acracadabra_id") {
-        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
-        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
-        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
-    }
-    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
-}
-
-function makeWorkspaceOrNot(createworkspace, workspace) {
-    if (createworkspace != "false") {
-        return [`workspace`, `new`, `${workspace}`]
-    }
-    return [`workspace`, `select`, `${workspace}`]
-}
-
-function makePlanCmd(varsfile, planfile) {
-    if (varsfile != "") {
-        return [`plan`, `-var-file`, `${varsfile}`, `-out`, `${planfile}`]
-    }
-    return [`plan`, `-out`, `${planfile}`]
-}
-
 module.exports = plan;
 
 
 /***/ }),
 
-/***/ 395:
+/***/ 785:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(127);
-const path = __nccwpck_require__(622)
-const exec = __nccwpck_require__(49)
+const core = __nccwpck_require__(719);
+const path = __nccwpck_require__(17)
+const exec = __nccwpck_require__(580)
 
 async function validate() {
     try {
@@ -320,7 +233,7 @@ module.exports = validate;
 
 /***/ }),
 
-/***/ 604:
+/***/ 513:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -346,8 +259,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issue = exports.issueCommand = void 0;
-const os = __importStar(__nccwpck_require__(87));
-const utils_1 = __nccwpck_require__(245);
+const os = __importStar(__nccwpck_require__(37));
+const utils_1 = __nccwpck_require__(75);
 /**
  * Commands
  *
@@ -419,7 +332,7 @@ function escapeProperty(s) {
 
 /***/ }),
 
-/***/ 127:
+/***/ 719:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -454,11 +367,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(604);
-const file_command_1 = __nccwpck_require__(352);
-const utils_1 = __nccwpck_require__(245);
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
+const command_1 = __nccwpck_require__(513);
+const file_command_1 = __nccwpck_require__(296);
+const utils_1 = __nccwpck_require__(75);
+const os = __importStar(__nccwpck_require__(37));
+const path = __importStar(__nccwpck_require__(17));
 /**
  * The code to exit an action
  */
@@ -720,7 +633,7 @@ exports.getState = getState;
 
 /***/ }),
 
-/***/ 352:
+/***/ 296:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -749,9 +662,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issueCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__nccwpck_require__(747));
-const os = __importStar(__nccwpck_require__(87));
-const utils_1 = __nccwpck_require__(245);
+const fs = __importStar(__nccwpck_require__(147));
+const os = __importStar(__nccwpck_require__(37));
+const utils_1 = __nccwpck_require__(75);
 function issueCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
     if (!filePath) {
@@ -769,7 +682,7 @@ exports.issueCommand = issueCommand;
 
 /***/ }),
 
-/***/ 245:
+/***/ 75:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -796,7 +709,7 @@ exports.toCommandValue = toCommandValue;
 
 /***/ }),
 
-/***/ 49:
+/***/ 580:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -831,8 +744,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getExecOutput = exports.exec = void 0;
-const string_decoder_1 = __nccwpck_require__(304);
-const tr = __importStar(__nccwpck_require__(469));
+const string_decoder_1 = __nccwpck_require__(576);
+const tr = __importStar(__nccwpck_require__(195));
 /**
  * Exec a command.
  * Output will be streamed to the live console.
@@ -906,7 +819,7 @@ exports.getExecOutput = getExecOutput;
 
 /***/ }),
 
-/***/ 469:
+/***/ 195:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -941,13 +854,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.argStringToArray = exports.ToolRunner = void 0;
-const os = __importStar(__nccwpck_require__(87));
-const events = __importStar(__nccwpck_require__(614));
-const child = __importStar(__nccwpck_require__(129));
-const path = __importStar(__nccwpck_require__(622));
-const io = __importStar(__nccwpck_require__(864));
-const ioUtil = __importStar(__nccwpck_require__(31));
-const timers_1 = __nccwpck_require__(213);
+const os = __importStar(__nccwpck_require__(37));
+const events = __importStar(__nccwpck_require__(361));
+const child = __importStar(__nccwpck_require__(81));
+const path = __importStar(__nccwpck_require__(17));
+const io = __importStar(__nccwpck_require__(984));
+const ioUtil = __importStar(__nccwpck_require__(953));
+const timers_1 = __nccwpck_require__(512);
 /* eslint-disable @typescript-eslint/unbound-method */
 const IS_WINDOWS = process.platform === 'win32';
 /*
@@ -1531,15 +1444,15 @@ class ExecState extends events.EventEmitter {
 
 /***/ }),
 
-/***/ 840:
+/***/ 330:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const http = __nccwpck_require__(605);
-const https = __nccwpck_require__(211);
-const pm = __nccwpck_require__(45);
+const http = __nccwpck_require__(685);
+const https = __nccwpck_require__(687);
+const pm = __nccwpck_require__(179);
 let tunnel;
 var HttpCodes;
 (function (HttpCodes) {
@@ -1958,7 +1871,7 @@ class HttpClient {
         if (useProxy) {
             // If using proxy, need tunnel
             if (!tunnel) {
-                tunnel = __nccwpck_require__(265);
+                tunnel = __nccwpck_require__(254);
             }
             const agentOptions = {
                 maxSockets: maxSockets,
@@ -2076,7 +1989,7 @@ exports.HttpClient = HttpClient;
 
 /***/ }),
 
-/***/ 45:
+/***/ 179:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -2141,7 +2054,7 @@ exports.checkBypass = checkBypass;
 
 /***/ }),
 
-/***/ 31:
+/***/ 953:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -2177,8 +2090,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rename = exports.readlink = exports.readdir = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
-const fs = __importStar(__nccwpck_require__(747));
-const path = __importStar(__nccwpck_require__(622));
+const fs = __importStar(__nccwpck_require__(147));
+const path = __importStar(__nccwpck_require__(17));
 _a = fs.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
 exports.IS_WINDOWS = process.platform === 'win32';
 function exists(fsPath) {
@@ -2325,7 +2238,7 @@ exports.getCmdPath = getCmdPath;
 
 /***/ }),
 
-/***/ 864:
+/***/ 984:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -2360,11 +2273,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
-const assert_1 = __nccwpck_require__(357);
-const childProcess = __importStar(__nccwpck_require__(129));
-const path = __importStar(__nccwpck_require__(622));
-const util_1 = __nccwpck_require__(669);
-const ioUtil = __importStar(__nccwpck_require__(31));
+const assert_1 = __nccwpck_require__(491);
+const childProcess = __importStar(__nccwpck_require__(81));
+const path = __importStar(__nccwpck_require__(17));
+const util_1 = __nccwpck_require__(837);
+const ioUtil = __importStar(__nccwpck_require__(953));
 const exec = util_1.promisify(childProcess.exec);
 const execFile = util_1.promisify(childProcess.execFile);
 /**
@@ -2673,7 +2586,7 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
-/***/ 24:
+/***/ 632:
 /***/ (function(module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -2708,13 +2621,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports._readLinuxVersionFile = exports._getOsVersion = exports._findMatch = void 0;
-const semver = __importStar(__nccwpck_require__(156));
-const core_1 = __nccwpck_require__(127);
+const semver = __importStar(__nccwpck_require__(623));
+const core_1 = __nccwpck_require__(719);
 // needs to be require for core node modules to be mocked
 /* eslint @typescript-eslint/no-require-imports: 0 */
-const os = __nccwpck_require__(87);
-const cp = __nccwpck_require__(129);
-const fs = __nccwpck_require__(747);
+const os = __nccwpck_require__(37);
+const cp = __nccwpck_require__(81);
+const fs = __nccwpck_require__(147);
 function _findMatch(versionSpec, stable, candidates, archFilter) {
     return __awaiter(this, void 0, void 0, function* () {
         const platFilter = os.platform();
@@ -2808,7 +2721,7 @@ exports._readLinuxVersionFile = _readLinuxVersionFile;
 
 /***/ }),
 
-/***/ 429:
+/***/ 383:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -2843,7 +2756,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RetryHelper = void 0;
-const core = __importStar(__nccwpck_require__(127));
+const core = __importStar(__nccwpck_require__(719));
 /**
  * Internal class for retries
  */
@@ -2898,7 +2811,7 @@ exports.RetryHelper = RetryHelper;
 
 /***/ }),
 
-/***/ 348:
+/***/ 707:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -2936,20 +2849,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
-const core = __importStar(__nccwpck_require__(127));
-const io = __importStar(__nccwpck_require__(864));
-const fs = __importStar(__nccwpck_require__(747));
-const mm = __importStar(__nccwpck_require__(24));
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
-const httpm = __importStar(__nccwpck_require__(840));
-const semver = __importStar(__nccwpck_require__(156));
-const stream = __importStar(__nccwpck_require__(413));
-const util = __importStar(__nccwpck_require__(669));
-const v4_1 = __importDefault(__nccwpck_require__(350));
-const exec_1 = __nccwpck_require__(49);
-const assert_1 = __nccwpck_require__(357);
-const retry_helper_1 = __nccwpck_require__(429);
+const core = __importStar(__nccwpck_require__(719));
+const io = __importStar(__nccwpck_require__(984));
+const fs = __importStar(__nccwpck_require__(147));
+const mm = __importStar(__nccwpck_require__(632));
+const os = __importStar(__nccwpck_require__(37));
+const path = __importStar(__nccwpck_require__(17));
+const httpm = __importStar(__nccwpck_require__(330));
+const semver = __importStar(__nccwpck_require__(623));
+const stream = __importStar(__nccwpck_require__(781));
+const util = __importStar(__nccwpck_require__(837));
+const v4_1 = __importDefault(__nccwpck_require__(701));
+const exec_1 = __nccwpck_require__(580);
+const assert_1 = __nccwpck_require__(491);
+const retry_helper_1 = __nccwpck_require__(383);
 class HTTPError extends Error {
     constructor(httpStatusCode) {
         super(`Unexpected HTTP response: ${httpStatusCode}`);
@@ -3570,7 +3483,7 @@ function _unique(values) {
 
 /***/ }),
 
-/***/ 156:
+/***/ 623:
 /***/ ((module, exports) => {
 
 exports = module.exports = SemVer
@@ -5173,27 +5086,27 @@ function coerce (version, options) {
 
 /***/ }),
 
-/***/ 265:
+/***/ 254:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-module.exports = __nccwpck_require__(686);
+module.exports = __nccwpck_require__(468);
 
 
 /***/ }),
 
-/***/ 686:
+/***/ 468:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-var net = __nccwpck_require__(631);
-var tls = __nccwpck_require__(16);
-var http = __nccwpck_require__(605);
-var https = __nccwpck_require__(211);
-var events = __nccwpck_require__(614);
-var assert = __nccwpck_require__(357);
-var util = __nccwpck_require__(669);
+var net = __nccwpck_require__(808);
+var tls = __nccwpck_require__(404);
+var http = __nccwpck_require__(685);
+var https = __nccwpck_require__(687);
+var events = __nccwpck_require__(361);
+var assert = __nccwpck_require__(491);
+var util = __nccwpck_require__(837);
 
 
 exports.httpOverHttp = httpOverHttp;
@@ -5453,7 +5366,7 @@ exports.debug = debug; // for test
 
 /***/ }),
 
-/***/ 223:
+/***/ 789:
 /***/ ((module) => {
 
 /**
@@ -5486,13 +5399,13 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
-/***/ 228:
+/***/ 214:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 // Unique ID creation requires a high quality random # generator.  In node.js
 // this is pretty straight-forward - we use the crypto API.
 
-var crypto = __nccwpck_require__(417);
+var crypto = __nccwpck_require__(113);
 
 module.exports = function nodeRNG() {
   return crypto.randomBytes(16);
@@ -5501,11 +5414,11 @@ module.exports = function nodeRNG() {
 
 /***/ }),
 
-/***/ 350:
+/***/ 701:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var rng = __nccwpck_require__(228);
-var bytesToUuid = __nccwpck_require__(223);
+var rng = __nccwpck_require__(214);
+var bytesToUuid = __nccwpck_require__(789);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -5537,7 +5450,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 357:
+/***/ 491:
 /***/ ((module) => {
 
 "use strict";
@@ -5545,7 +5458,7 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 129:
+/***/ 81:
 /***/ ((module) => {
 
 "use strict";
@@ -5553,7 +5466,7 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 417:
+/***/ 113:
 /***/ ((module) => {
 
 "use strict";
@@ -5561,7 +5474,7 @@ module.exports = require("crypto");
 
 /***/ }),
 
-/***/ 614:
+/***/ 361:
 /***/ ((module) => {
 
 "use strict";
@@ -5569,7 +5482,7 @@ module.exports = require("events");
 
 /***/ }),
 
-/***/ 747:
+/***/ 147:
 /***/ ((module) => {
 
 "use strict";
@@ -5577,7 +5490,7 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 605:
+/***/ 685:
 /***/ ((module) => {
 
 "use strict";
@@ -5585,7 +5498,7 @@ module.exports = require("http");
 
 /***/ }),
 
-/***/ 211:
+/***/ 687:
 /***/ ((module) => {
 
 "use strict";
@@ -5593,7 +5506,7 @@ module.exports = require("https");
 
 /***/ }),
 
-/***/ 631:
+/***/ 808:
 /***/ ((module) => {
 
 "use strict";
@@ -5601,7 +5514,7 @@ module.exports = require("net");
 
 /***/ }),
 
-/***/ 87:
+/***/ 37:
 /***/ ((module) => {
 
 "use strict";
@@ -5609,7 +5522,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 622:
+/***/ 17:
 /***/ ((module) => {
 
 "use strict";
@@ -5617,7 +5530,7 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ 765:
+/***/ 282:
 /***/ ((module) => {
 
 "use strict";
@@ -5625,7 +5538,7 @@ module.exports = require("process");
 
 /***/ }),
 
-/***/ 413:
+/***/ 781:
 /***/ ((module) => {
 
 "use strict";
@@ -5633,7 +5546,7 @@ module.exports = require("stream");
 
 /***/ }),
 
-/***/ 304:
+/***/ 576:
 /***/ ((module) => {
 
 "use strict";
@@ -5641,7 +5554,7 @@ module.exports = require("string_decoder");
 
 /***/ }),
 
-/***/ 213:
+/***/ 512:
 /***/ ((module) => {
 
 "use strict";
@@ -5649,7 +5562,7 @@ module.exports = require("timers");
 
 /***/ }),
 
-/***/ 16:
+/***/ 404:
 /***/ ((module) => {
 
 "use strict";
@@ -5657,7 +5570,7 @@ module.exports = require("tls");
 
 /***/ }),
 
-/***/ 669:
+/***/ 837:
 /***/ ((module) => {
 
 "use strict";
@@ -5706,15 +5619,14 @@ module.exports = require("util");
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const init = __nccwpck_require__(887)
-const ensure = __nccwpck_require__(873)
-const plan = __nccwpck_require__(292);
-const apply = __nccwpck_require__(596);
-const destroy = __nccwpck_require__(523);
-const core = __nccwpck_require__(127);
-var process = __nccwpck_require__(765);
-const validate = __nccwpck_require__(395);
-
+const init = __nccwpck_require__(882)
+const ensure = __nccwpck_require__(444)
+const plan = __nccwpck_require__(499);
+const apply = __nccwpck_require__(503);
+const destroy = __nccwpck_require__(0);
+const core = __nccwpck_require__(719);
+var process = __nccwpck_require__(282);
+const validate = __nccwpck_require__(785);
 
 
 (async () => {
@@ -5748,7 +5660,45 @@ const validate = __nccwpck_require__(395);
     }
   })();
 
+function makeWorkspaceOrNot(createworkspace, workspace) {
+    if (createworkspace != "false") {
+        return [`workspace`, `new`, `${workspace}`]
+    }
+    return [`workspace`, `select`, `${workspace}`]
+}
 
+function addEnvVars(aws_access_key_id, aws_secret_access_key) {
+    if (aws_access_key_id != "acracadabra_id") {
+        core.info(`**** IMPORTANT: Setting provided AWS Credentials ****`);
+        process.env['AWS_ACCESS_KEY_ID'] = `${aws_access_key_id}`;
+        process.env['AWS_SECRET_ACCESS_KEY'] = `${aws_secret_access_key}`;
+    }
+    core.info(`**** IMPORTANT: No AWS Credentials provided. To proceed with instance profile access ****`);
+}
+
+
+function makePlanCmd(varsfile, planfile, target) {
+    let plan = [`plan`];
+
+    if (varsfile != "") {
+        plan = plan.concat([`-var-file`, `${varsfile}`])
+    }
+
+    if (target != "") {
+        plan = plan.concat([`-target`, `${target}`]);
+    }
+
+    plan = plan.concat([`-out`, `${planfile}`]);
+
+    return plan;
+}
+
+function makeInitArgs(bucket, prefix, region) {
+    if (bucket != '' && prefix != '') {
+        return [ `init`, `-force-copy`, `-backend-config`, `region=${region}`, `-backend-config`, `bucket=${bucket}`, `-backend-config`, `key=${prefix}`]
+    }
+    return [`init`]
+}
 })();
 
 module.exports = __webpack_exports__;
