@@ -134,7 +134,7 @@ function makePlanCmd(varsfile, planfile, target) {
         plan = plan.concat([`-target`, `${target}`]);
     }
 
-    plan = plan.concat([`-out`, `${planfile}`]);
+    plan = plan.concat([`-out`, `${planfile}`, `-destroy`]);
 
     return plan;
 }
