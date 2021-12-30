@@ -215,6 +215,9 @@ async function init() {
         core.startGroup(`Init info`);
         core.info(`Starting terraform init with command ${execfile} ${args}`);
         await exec.exec(execfile, args);
+        const workspaceargs = makeWorkspaceOrNot(core.getInput("create-workspace"), core.getInput("workspace"))
+        await exec.exec(execfile, workspaceargs);
+        await exec.exec(execfile, args);
         core.endGroup();
     } catch (err) {
         core.error(err);
@@ -236,6 +239,13 @@ function makeInitArgs(bucket, prefix, region) {
         return [ `init`, `-force-copy`, `-backend-config`, `region=${region}`, `-backend-config`, `bucket=${bucket}`, `-backend-config`, `key=${prefix}`]
     }
     return [`init`]
+}
+
+function makeWorkspaceOrNot(createworkspace, workspace) {
+    if (createworkspace != "false") {
+        return [`workspace`, `new`, `${workspace}`]
+    }
+    return [`workspace`, `select`, `${workspace}`]
 }
 
 module.exports = init;
