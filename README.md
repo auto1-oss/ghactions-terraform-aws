@@ -54,7 +54,7 @@ jobs:
 ## Supported Inputs
 >The workflow supports the following inputs.
 
-`terraform_version` The version of terraform to use while using this wrapper. It expects the terraform binary to be in "/usr/local/bin" and the binary to be named in format terraform**version-major**. If the binary is not installed please use the **ensure** action. *Required: True*
+`terraform_version` The version of terraform to use. If the binary is not installed please use the **ensure** action. *Required: True*
 
 `command` The action to perform. The terraform actions supported are **init**, **plan**, **apply**, **destroy**. There is an additional action defined **ensure** that checks if you have the exact version of terraform provided as terraform version in workflow installed, or it will download and place the binary on **$PATH**. *Required: True*
 
