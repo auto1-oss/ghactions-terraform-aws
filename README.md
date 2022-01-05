@@ -72,6 +72,8 @@ jobs:
 
 `workspace` The workspace to use. Uses **default** workspace by default. *Required: False*
 
+`create-workspace` Set to **true** if a new terraform workspace has to be created, the workspace name would be set by the **workspace** input. *Required: false*
+
 `aws_region` The AWS region to use AWS provisioning for. Default is **eu-west-1**. Use this to switch your region. *Required: False*
 
 `aws_access_key_id` You can opt to use your access key id to provision the workflow or ensure you use a github runner that has appropriate IAM permissions to provision your infra. In the former case this is a mandatory parameter. To use this it is recommended to store this as your repo secret and use this as 
